@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/welcomeFragment">
+    app:startDestination="@id/genericAccountLoginFragment">
 
     <fragment
         android:id="@+id/welcomeFragment"

@@ -90,15 +90,23 @@ class TabsViewModel : ViewModel() {
 
     init {
         coreContext.core.addListener(listener)
-
+        leftAnchor.value = 0.25F
+        middleAnchor.value = 0.5F
+        rightAnchor.value = 0.75F
         if (corePreferences.disableChat) {
             leftAnchor.value = 1 / 3F
             middleAnchor.value = 2 / 3F
             rightAnchor.value = 1F
-        } else {
-            leftAnchor.value = 0.25F
-            middleAnchor.value = 0.5F
-            rightAnchor.value = 0.75F
+        }
+        if (corePreferences.disableAddressBook) {
+            leftAnchor.value = 1 / 2F
+            middleAnchor.value = 1 / 2F
+            rightAnchor.value = 1F
+        }
+        if (corePreferences.disableChat && corePreferences.disableAddressBook) {
+            leftAnchor.value = 1 / 2F
+            middleAnchor.value = 1 / 2F
+            rightAnchor.value = 1F
         }
 
         updateUnreadChatCount()

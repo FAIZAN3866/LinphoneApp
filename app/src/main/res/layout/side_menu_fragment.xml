@@ -112,7 +112,8 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:visibility="@{viewModel.defaultAccountFound ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.showSipUri ? View.VISIBLE : View.GONE}"
+
                     android:text="@{viewModel.defaultAccountViewModel.displayUsernameInsteadOfIdentity ? viewModel.defaultAccountViewModel.userName : viewModel.defaultAccountViewModel.identity}"
                     style="@style/sip_uri_small_font"
                     android:layout_width="wrap_content"

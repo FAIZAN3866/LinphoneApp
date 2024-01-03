@@ -201,7 +201,7 @@ class DialerFragment : SecureFragment<DialerFragmentBinding>() {
 
         viewModel.autoInitiateVideoCalls.value = coreContext.core.videoActivationPolicy.automaticallyInitiate
 
-        checkForUpdate()
+//        checkForUpdate()
 
         checkPermissions()
     }

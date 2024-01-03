@@ -93,8 +93,8 @@
                     android:hint="@string/domain">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:text="@={viewModel.domain}"
                         android:imeOptions="actionNext"
+                        android:visibility="gone"
                         android:singleLine="true"
                         android:inputType="textUri"
                         android:background="@color/transparent_color"
@@ -106,7 +106,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/assistant_display_name_optional">
+                    android:hint="@string/phone_number">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:text="@={viewModel.displayName}"
@@ -120,6 +120,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <RadioGroup
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -153,7 +154,8 @@
                         android:text="@string/transport_tcp" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:checked="@{viewModel.transport == TransportType.Tls}"
+
+                        android:checked="true"
                         android:onClick="@{() -> viewModel.setTransport(TransportType.Tls)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

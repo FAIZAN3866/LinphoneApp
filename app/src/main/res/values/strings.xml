@@ -433,7 +433,7 @@
     <string name="assistant_welcome_desc">This assistant will help you configure and use your SIP account.</string>
     <string name="assistant_create_account">Create account</string>
     <string name="assistant_login_linphone">Use &appName; account</string>
-    <string name="assistant_login_generic">Use SIP account</string>
+    <string name="assistant_login_generic">account</string>
     <string name="assistant_remote_provisioning">Fetch remote configuration</string>
     <string name="assistant_ec_calibration">Echo canceler calibration in progress</string>
     <string name="assistant_phone_number_info_title">What will my phone number be used for?</string>
@@ -474,8 +474,8 @@
     <string name="assistant_continue_even_if_credentials_invalid">Continue</string>
 
     <!-- Assistant generic login -->
-    <string name="assistant_generic_account">Use SIP account</string>
-    <string name="assistant_login_desc">Please enter your username and password with your SIP domain</string>
+    <string name="assistant_generic_account">account</string>
+    <string name="assistant_login_desc">Please enter your username and password</string>
     <string name="assistant_display_name_optional">Display name (optional)</string>
 
     <!-- Assistant create -->

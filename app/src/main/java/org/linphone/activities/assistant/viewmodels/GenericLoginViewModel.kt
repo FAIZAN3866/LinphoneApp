@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.linphone.LinphoneApplication.Companion.coreContext
+import org.linphone.LinphoneApplication.Companion.corePreferences
 import org.linphone.core.*
 import org.linphone.core.tools.Log
 import org.linphone.utils.Event
@@ -42,7 +43,7 @@ class GenericLoginViewModel(private val accountCreator: AccountCreator) : ViewMo
 
     val password = MutableLiveData<String>()
 
-    val domain = MutableLiveData<String>()
+    val domain: String = corePreferences.defaultDomain
 
     val displayName = MutableLiveData<String>()
 
@@ -96,9 +97,9 @@ class GenericLoginViewModel(private val accountCreator: AccountCreator) : ViewMo
         loginEnabled.addSource(password) {
             loginEnabled.value = isLoginButtonEnabled()
         }
-        loginEnabled.addSource(domain) {
-            loginEnabled.value = isLoginButtonEnabled()
-        }
+//        loginEnabled.addSource(domain) {
+//            loginEnabled.value = isLoginButtonEnabled()
+//        }
     }
 
     fun setTransport(transportType: TransportType) {
@@ -133,7 +134,7 @@ class GenericLoginViewModel(private val accountCreator: AccountCreator) : ViewMo
 
         accountCreator.username = username.value
         accountCreator.password = password.value
-        accountCreator.domain = domain.value
+        accountCreator.domain = domain
         accountCreator.displayName = displayName.value
         accountCreator.transport = transport.value
 
@@ -153,7 +154,7 @@ class GenericLoginViewModel(private val accountCreator: AccountCreator) : ViewMo
 
     private fun isLoginButtonEnabled(): Boolean {
         return username.value.orEmpty().isNotEmpty() &&
-            domain.value.orEmpty().isNotEmpty() &&
+            domain.isNotEmpty() &&
             password.value.orEmpty().isNotEmpty()
     }
 }

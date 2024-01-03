@@ -118,7 +118,7 @@ class CorePreferences constructor(private val context: Context) {
         }
 
     var readAndAgreeTermsAndPrivacy: Boolean
-        get() = config.getBool("app", "read_and_agree_terms_and_privacy", false)
+        get() = config.getBool("app", "read_and_agree_terms_and_privacy", true)
         set(value) {
             config.setBool("app", "read_and_agree_terms_and_privacy", value)
         }
@@ -126,7 +126,7 @@ class CorePreferences constructor(private val context: Context) {
     /* UI */
 
     var forcePortrait: Boolean
-        get() = config.getBool("app", "force_portrait_orientation", false)
+        get() = config.getBool("app", "force_portrait_orientation", true)
         set(value) {
             config.setBool("app", "force_portrait_orientation", value)
         }
@@ -459,10 +459,10 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool("app", "allow_multiple_files_and_text_in_same_message", true)
 
     val enableNativeAddressBookIntegration: Boolean
-        get() = config.getBool("app", "enable_native_address_book", true)
+        get() = config.getBool("app", "enable_native_address_book", false)
 
     val fetchContactsFromDefaultDirectory: Boolean
-        get() = config.getBool("app", "fetch_contacts_from_default_directory", true)
+        get() = config.getBool("app", "fetch_contacts_from_default_directory", false)
 
     val delayBeforeShowingContactsSearchSpinner: Int
         get() = config.getInt("app", "delay_before_showing_contacts_search_spinner", 200)
@@ -477,11 +477,11 @@ class CorePreferences constructor(private val context: Context) {
 
     // Will prevent user adding contact and editing / removing existing contacts
     val readOnlyNativeContacts: Boolean
-        get() = config.getBool("app", "read_only_native_address_book", false)
+        get() = config.getBool("app", "read_only_native_address_book", true)
 
     // Will hide the contacts selector to allow listing all contacts, even those without a SIP address
     val onlyShowSipContactsList: Boolean
-        get() = config.getBool("app", "only_show_sip_contacts_list", false)
+        get() = config.getBool("app", "only_show_sip_contacts_list", true)
 
     // Will hide the SIP contacts selector, leaving only the all contacts list
     val hideSipContactsList: Boolean
@@ -489,11 +489,15 @@ class CorePreferences constructor(private val context: Context) {
 
     // Will disable chat feature completely
     val disableChat: Boolean
-        get() = config.getBool("app", "disable_chat_feature", false)
+        get() = config.getBool("app", "disable_chat_feature", true)
+
+    // Will disable contact feature completely
+    val disableAddressBook: Boolean
+        get() = config.getBool("app", "disable_address_book_feature", true)
 
     // Will disable video feature completely
     val disableVideo: Boolean
-        get() = config.getBool("app", "disable_video_feature", false)
+        get() = config.getBool("app", "disable_video_feature", true)
 
     val forceEndToEndEncryptedChat: Boolean
         get() = config.getBool("app", "force_lime_chat_rooms", false)
@@ -534,7 +538,7 @@ class CorePreferences constructor(private val context: Context) {
     /* Default values related */
 
     val defaultDomain: String
-        get() = config.getString("app", "default_domain", "sip.linphone.org")!!
+        get() = config.getString("app", "default_domain", "sip.telnyx.com")!!
 
     val defaultRlsUri: String
         get() = config.getString("sip", "rls_uri", "sips:rls@sip.linphone.org")!!
@@ -590,7 +594,9 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool("app", "side_menu_accounts", true)
 
     val showAssistantInSideMenu: Boolean
-        get() = config.getBool("app", "side_menu_assistant", true)
+        get() = config.getBool("app", "side_menu_assistant", false)
+    val showSipUri: Boolean
+        get() = config.getBool("app", "show_sip_uri", false)
 
     val showSettingsInSideMenu: Boolean
         get() = config.getBool("app", "side_menu_settings", true)
@@ -620,28 +626,28 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool("app", "settings_accounts", true)
 
     val showTunnelSettings: Boolean
-        get() = config.getBool("app", "settings_tunnel", true)
+        get() = config.getBool("app", "settings_tunnel", false)
 
     val showAudioSettings: Boolean
-        get() = config.getBool("app", "settings_audio", true)
+        get() = config.getBool("app", "settings_audio", false)
 
     val showVideoSettings: Boolean
         get() = config.getBool("app", "settings_video", !disableVideo)
 
     val showCallSettings: Boolean
-        get() = config.getBool("app", "settings_call", true)
+        get() = config.getBool("app", "settings_call", false)
 
     val showChatSettings: Boolean
         get() = config.getBool("app", "settings_chat", !disableChat)
 
     val showNetworkSettings: Boolean
-        get() = config.getBool("app", "settings_network", true)
+        get() = config.getBool("app", "settings_network", false)
 
     val showContactsSettings: Boolean
-        get() = config.getBool("app", "settings_contacts", true)
+        get() = config.getBool("app", "settings_contacts", false)
 
     val showAdvancedSettings: Boolean
-        get() = config.getBool("app", "settings_advanced", true)
+        get() = config.getBool("app", "settings_advanced", false)
 
     val showConferencesSettings: Boolean
         get() = config.getBool(

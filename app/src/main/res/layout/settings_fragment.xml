@@ -115,6 +115,7 @@
                         linphone:layout="@{@layout/settings_account_cell}"/>
 
                     <TextView
+                        android:visibility="gone"
                         style="@style/settings_category_font"
                         android:text="@string/settings_list_title"
                         android:paddingTop="15dp"

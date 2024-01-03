@@ -27,6 +27,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Base64
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -47,6 +48,8 @@ import coil.imageLoader
 import com.google.android.material.snackbar.Snackbar
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
+import java.security.MessageDigest
+import java.security.SecureRandom
 import kotlin.math.abs
 import kotlinx.coroutines.*
 import org.linphone.LinphoneApplication.Companion.coreContext
@@ -148,6 +151,15 @@ class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestin
 
         callOverlayViewModel = ViewModelProvider(this)[CallOverlayViewModel::class.java]
         binding.callOverlayViewModel = callOverlayViewModel
+
+        // Example usage
+        val codeVerifier = generateCodeVerifier()
+        val state = generateRandomState()
+        val codeChallenge = generateCodeChallenge(codeVerifier)
+
+        Log.e("[Main Activity] challenge codeverifier: $codeVerifier")
+        Log.e("[Main Activity] challenge state: $state")
+        Log.e("[Main Activity] challenge codeChallenge: $codeChallenge")
 
         sharedViewModel.toggleDrawerEvent.observe(
             this
@@ -729,4 +741,49 @@ class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestin
         dialog.show()
         authenticationRequiredDialog = dialog
     }
+
+    // Function to generate random bytes
+    fun generateRandomBytes(size: Int): ByteArray {
+        val random = SecureRandom()
+        val bytes = ByteArray(size)
+        random.nextBytes(bytes)
+        return bytes
+    }
+
+    // Function to convert byte array to hex string
+    fun bytesToHex(bytes: ByteArray): String {
+        val hexChars = CharArray(bytes.size * 2)
+        for (i in bytes.indices) {
+            val v = bytes[i].toInt() and 0xFF
+            hexChars[i * 2] = "0123456789ABCDEF"[v ushr 4]
+            hexChars[i * 2 + 1] = "0123456789ABCDEF"[v and 0x0F]
+        }
+        return String(hexChars)
+    }
+
+    // Function to create code verifier
+    fun generateCodeVerifier(): String {
+        val randomBytes = generateRandomBytes(64)
+        return bytesToHex(randomBytes).substring(0, 128)
+    }
+
+    // Function to create code challenge
+    fun generateCodeChallenge(codeVerifier: String): String {
+        val bytes = codeVerifier.toByteArray(Charsets.UTF_8)
+        val messageDigest = MessageDigest.getInstance("SHA-256")
+        val digestBytes = messageDigest.digest(bytes)
+        val base64 = Base64.encodeToString(
+            digestBytes,
+            Base64.URL_SAFE or Base64.NO_WRAP or Base64.NO_PADDING
+        )
+        return base64.replace("=", "").replace("+", "-").replace("/", "_")
+    }
+
+    // Function to generate random state
+    fun generateRandomState(): String {
+        val randomBytes = generateRandomBytes(20)
+        return bytesToHex(randomBytes).substring(0, 40)
+    }
+
+// Now you can use codeVerifier, state, and codeChallenge in your Android code
 }

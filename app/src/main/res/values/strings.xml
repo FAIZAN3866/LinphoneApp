@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE resources [
-    <!ENTITY appName "Linphone">
+    <!ENTITY appName "Insurance4Truckers">
 ]>
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
@@ -14,21 +14,21 @@
     <string name="sync_account_name">&appName; contacts</string>
 
     <!-- About screen -->
-    <string name="about_link" translatable="false">https://linphone.org</string>
-    <string name="about_privacy_policy_link" translatable="false">https://www.linphone.org/privacy-policy</string>
+    <string name="about_link" translatable="false">https://insurance4truck.com/</string>
+    <string name="about_privacy_policy_link" translatable="false">https://insurance4truck.com/</string>
     <string name="about_license_link" translatable="false">https://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="about_version" translatable="false">&appName; Android %s</string>
     <string name="about_liblinphone_sdk_version" translatable="false">&appName; SDK %s</string>
     <string name="about_privacy_policy">Visit our privacy policy</string>
     <string name="about_text" translatable="false">GNU General Public License v3.0\n © 2010–2023 Belledonne Communications</string>
-    <string name="about_weblate_link" translatable="false">https://weblate.linphone.org/projects/linphone/</string>
+    <string name="about_weblate_link" translatable="false">https://insurance4truck.com/</string>
     <string name="about_weblate_translation">Help us translate &appName;</string>
 
     <!-- Logs -->
     <string name="logs_upload_failure">Failed to upload logs!</string>
     <string name="logs_reset_complete">Logs have been cleared</string>
     <string name="logs_url_copied_to_clipboard">Logs URL copied into clipboard</string>
-    <string name="about_bugreport_email" translatable="false">linphone-android@belledonne-communications.com</string>
+    <string name="about_bugreport_email" translatable="false">contact@insurance4truck.com/</string>
 
     <!-- Common -->
     <string name="phone_number">Phone number</string>
@@ -964,4 +964,5 @@
     <string name="content_description_presence_offline">User is offline</string>
     <string name="content_description_presence_do_not_disturb">User is asking not to be disturbed</string>
     <string name="content_description_emoji_picker">Toggle emoji picker visibility</string>
+    <string name="about_content">Insurance4Truckers was founded by a team deeply seeded within the Transportation, Finance, and P&amp;C Insurance Industries. Quickly establishing itself as a true trucking specialist, We set a common and unwavering objective of providing exceptional customer service with a transparent approach. Insurance4Truckers is positioned to help guide your growing business through various risk mitigation techniques, safety and loss prevention measures, and customized commercial insurance programs and packages</string>
 </resources>

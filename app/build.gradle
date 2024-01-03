@@ -6,14 +6,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def appVersionName = "5.1.0"
-def appVersionCode = 51000
+def appVersionName = "5.1.1"
+def appVersionCode = 51001
 
-def packageName = "org.linphone"
+def packageName = "com.insurance4truck"
 
 def firebaseAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
 
-def crashlyticsAvailable = new File(projectDir.absolutePath +'/google-services.json').exists() && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
+def crashlyticsAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
+//        && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
 
 def extractNativeLibs = false
 

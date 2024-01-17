@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!DOCTYPE resources [
-    <!ENTITY appName "Insurance4Truckers">
-]>
+<!DOCTYPE resources [<!ENTITY appName "Insurance4Truckers">]>
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">&appName;</string>
@@ -100,7 +98,7 @@
     <string name="no_sip_contact">No SIP contact in your address book.</string>
     <string name="contact_filter_hint">Search contacts</string>
     <string name="contact_send_sms_invite_text">Hello, join me on &appName;! You can download it for free at %s</string>
-    <string name="contact_send_sms_invite_download_link" translatable="false">https://linphone.org/download</string>
+    <string name="contact_send_sms_invite_download_link" translatable="false">https://telnyx.com/download</string>
     <string name="contact_last_name">Last name</string>
     <string name="contact_first_name">First name</string>
     <string name="contact_organization">Organization</string>
@@ -289,7 +287,8 @@
     <string name="conference_schedule_send_invite_email">Send invite via email</string>
     <string name="conference_schedule_send_updated_invite_email">Send update via email</string>
     <string name="conference_schedule_encryption">Would you like to encrypt the meeting?</string>
-    <string name="conference_schedule_send_invite_chat_summary">Invite will be sent out from my &appName; account</string>
+    <string name="conference_schedule_send_invite_chat_summary">Invite will be sent out from my &appName;
+        account</string>
     <string name="conference_schedule_participants_list">Participants list</string>
     <string name="conference_schedule_speakers_list">Speakers list</string>
     <string name="conference_schedule_speakers_list_empty">Select at least one speaker</string>
@@ -437,15 +436,17 @@
     <string name="assistant_remote_provisioning">Fetch remote configuration</string>
     <string name="assistant_ec_calibration">Echo canceler calibration in progress</string>
     <string name="assistant_phone_number_info_title">What will my phone number be used for?</string>
-    <string name="assistant_phone_number_link_info_content">\nYour friends will find you more easily if you link your account to your phone number\n\nYou will see in your address book who is using &appName; and your friends will know that they can reach you on &appName; as well.\n</string>
-    <string name="assistant_phone_number_link_info_content_already_account">You can only use your phone number with one &appName; account.\n\nIf you had already linked your number to an other account but you prefer to use this one, simply link it now and your number will automatically be moved to this account.</string>
-    <string name="assistant_general_terms_link" translatable="false">https://www.linphone.org/general-terms</string>
-    <string name="assistant_privacy_policy_link" translatable="false">https://www.linphone.org/privacy-policy</string>
+    <string name="assistant_phone_number_link_info_content">\nYour friends will find you more easily if you link your account to your phone number\n\nYou will see in your address book who is using &appName;
+        and your friends will know that they can reach you on &appName; as well.\n</string>
+    <string name="assistant_phone_number_link_info_content_already_account">You can only use your phone number with one &appName;
+        account.\n\nIf you had already linked your number to an other account but you prefer to use this one, simply link it now and your number will automatically be moved to this account.</string>
+    <string name="assistant_general_terms_link" translatable="false">https://www.telnyx.com/general-terms</string>
+    <string name="assistant_privacy_policy_link" translatable="false">https://www.telnyx.com/privacy-policy</string>
     <string name="assistant_general_terms">terms of use</string>
     <string name="assistant_privacy_policy">privacy policy</string>
     <string name="assistant_read_and_agree_terms">I accept Belledonne Communications\' %1$s and %2$s</string>
     <string name="assistant_generic_account_warning">Some features require a &appName; account, such as group messaging or ephemeral messaging.\n\nThese features are hidden when you register with a third party SIP account.\n\nTo enable it in a commercial project, please contact us.</string>
-    <string name="assistant_generic_account_warning_contact_link" translatable="false">https://www.linphone.org/contact</string>
+    <string name="assistant_generic_account_warning_contact_link" translatable="false">https://www.telnyx.com/contact</string>
     <string name="assistant_generic_account_warning_continue_button_text">I understand</string>
     <string name="assistant_alternative_way_create_account">To create an account using your email:</string>
     <string name="assistant_no_push_warning">Your device doesn\'t seem to be able to receive push notifications.\n\nAs we now require them for the account creation process, you won\'t be able to create an account inside the app, but you can create it on our website:</string>
@@ -467,7 +468,7 @@
     <string name="assistant_linphone_login_desc">Please enter your &appName; account username and password</string>
     <string name="assistant_login_with_username">Use your username and password instead of your phone number</string>
     <string name="assistant_login_forgotten_password">Forgot your password?</string>
-    <string name="assistant_forgotten_password_link" translatable="false">https://subscribe.linphone.org/</string>
+    <string name="assistant_forgotten_password_link" translatable="false">https://subscribe.telnyx.com/</string>
     <string name="assistant_login">Login</string>
     <string name="assistant_finish">Finish configuration</string>
     <string name="assistant_confirmation_code">Confirmation code</string>
@@ -479,7 +480,8 @@
     <string name="assistant_display_name_optional">Display name (optional)</string>
 
     <!-- Assistant create -->
-    <string name="assistant_create_account_part_email">Please enter a username, email and password for your &appName; account</string>
+    <string name="assistant_create_account_part_email">Please enter a username, email and password for your &appName;
+        account</string>
     <string name="assistant_confirm_password">Password confirmation</string>
     <string name="assistant_validate_account_1">Your account is created. Please check your emails to validate your account:</string>
     <string name="assistant_validate_account_2">Once it is done, come back here and click on the button.</string>
@@ -632,7 +634,8 @@
     <!-- Contacts settings -->
     <string name="contacts_settings_friendlist_subscribe_title">Friendlist subscribe</string>
     <string name="contacts_settings_native_presence_title">Presence information in native contact</string>
-    <string name="contacts_settings_native_presence_summary">Inserting information shortcuts from the &appName; contact into native Android contacts</string>
+    <string name="contacts_settings_native_presence_summary">Inserting information shortcuts from the &appName;
+        contact into native Android contacts</string>
     <string name="contacts_settings_show_organization_title">Display contact organization</string>
     <string name="contacts_settings_launcher_shortcuts_title">Create shortcuts to contacts in launcher</string>
     <string name="contacts_settings_launcher_shortcuts_summary">Will replace chat room shortcuts if any</string>
@@ -965,4 +968,15 @@
     <string name="content_description_presence_do_not_disturb">User is asking not to be disturbed</string>
     <string name="content_description_emoji_picker">Toggle emoji picker visibility</string>
     <string name="about_content"><![CDATA[Insurance4Truckers was founded by a team deeply seeded within the Transportation, Finance, and P&amp;C Insurance Industries. Quickly establishing itself as a true trucking specialist, We set a common and unwavering objective of providing exceptional customer service with a transparent approach. Insurance4Truckers is positioned to help guide your growing business through various risk mitigation techniques, safety and loss prevention measures, and customized commercial insurance programs and packages]]></string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="payload">payload</string>
+    <string name="logout">Logout</string>
 </resources>

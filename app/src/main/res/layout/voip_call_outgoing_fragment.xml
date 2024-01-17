@@ -110,7 +110,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@{callsViewModel.currentCallData.isConferenceCall ? callsViewModel.currentCallData.remoteConferenceSubject : callsViewModel.currentCallData.displayableAddress, default=`sip:bilbo.baggins@sip.linphone.org`}"
+            android:text="@{callsViewModel.currentCallData.isConferenceCall ? callsViewModel.currentCallData.remoteConferenceSubject : callsViewModel.currentCallData.displayableAddress, default=`sip:bilbo.baggins@sip.telnyx.com`}"
             android:textIsSelectable="true"
             app:layout_constraintBottom_toTopOf="@id/buttons"
             app:layout_constraintEnd_toEndOf="parent"

@@ -169,8 +169,8 @@ We no longer use transifex for the translation process, instead we have deployed
 
 Due to the full app rewrite we can't re-use previous translations, so we'll be very happy if you want to contribute.
 
-<a href="https://weblate.linphone.org/engage/linphone/?utm_source=widget">
-<img src="https://weblate.linphone.org/widgets/linphone/-/linphone-android/multi-auto.svg" alt="Translation status" />
+<a href="https://weblate.telnyx.com/engage/linphone/?utm_source=widget">
+<img src="https://weblate.telnyx.com/widgets/linphone/-/linphone-android/multi-auto.svg" alt="Translation status" />
 </a>
 
 # CONTRIBUTIONS
@@ -178,6 +178,6 @@ Due to the full app rewrite we can't re-use previous translations, so we'll be v
 In order to submit a patch for inclusion in linphone's source code:
 
 1. First make sure your patch applies to latest git sources before submitting: patches made to old versions can't and won't be merged.
-2. Fill out and send us an email with the link of pull-request and the [Contributor Agreement](https://linphone.org/sites/default/files/bc-contributor-agreement_0.pdf) for your patch to be included in the git tree.
+2. Fill out and send us an email with the link of pull-request and the [Contributor Agreement](https://telnyx.com/sites/default/files/bc-contributor-agreement_0.pdf) for your patch to be included in the git tree.
 
 The goal of this agreement to grant us peaceful exercise of our rights on the linphone source code, while not losing your rights on your contribution.

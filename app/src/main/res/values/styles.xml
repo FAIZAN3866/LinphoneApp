@@ -1,11 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <style name="AppSplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/dark_grey_color</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/linphone_logo</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowSplashScreenBackground">@color/primary_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_inset</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
-
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="android:windowBackground">@drawable/splash_inset</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Disable animations between activities -->
@@ -81,8 +88,8 @@
         <item name="android:textColor">@android:color/transparent</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="layout_maxWidth">50dp</item>
-        <item name="layout_maxHeight">50dp</item>
+        <item name="layout_maxWidth">90dp</item>
+        <item name="layout_maxHeight">90dp</item>
     </style>
 
     <style name="call_numpad_digit" parent="@android:style/TextAppearance.Medium">

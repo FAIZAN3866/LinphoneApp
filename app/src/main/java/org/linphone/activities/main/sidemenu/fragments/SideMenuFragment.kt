@@ -25,6 +25,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.view.View
+import android.webkit.CookieManager
+import android.webkit.WebStorage
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -89,7 +91,7 @@ class SideMenuFragment : GenericFragment<SideMenuFragmentBinding>() {
                 if (corePreferences.askForAccountPasswordToAccessSettings) {
                     showPasswordDialog(goToAccountSettings = true, accountIdentity = identity)
                 } else {
-                    navigateToAccountSettings(identity)
+                    navigateToSettings()
                 }
             }
         }
@@ -135,6 +137,37 @@ class SideMenuFragment : GenericFragment<SideMenuFragmentBinding>() {
             Log.i("[Side Menu] Stopping Core Context")
             coreContext.notificationsManager.stopForegroundNotification()
             coreContext.stop()
+        }
+        binding.setLogoutClickListener {
+            Log.i("[Side Menu] Logout app")
+            requireActivity().finishAndRemoveTask()
+
+            Log.i("[Side Menu] Stopping Core Context")
+            coreContext.notificationsManager.stopForegroundNotification()
+            coreContext.stop()
+            val account = coreContext.core.accountList
+
+            for (a in account) {
+                val authInfo = a.findAuthInfo()
+                if (authInfo != null) {
+                    Log.i("[Account Settings] Found auth info $authInfo, removing it.")
+                    coreContext.core.removeAuthInfo(authInfo)
+                } else {
+                    Log.w("[Account Settings] Couldn't find matching auth info...")
+                }
+
+                coreContext.core.removeAccount(a)
+                //                        accountRemovedEvent.value = Event(true)
+            }
+            WebStorage.getInstance().deleteAllData()
+            // Clear all the cookies
+            CookieManager.getInstance().removeAllCookies(null)
+            CookieManager.getInstance().flush()
+            val intent = Intent(context, AssistantActivity::class.java)
+            intent.addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
+            )
+            startActivity(intent)
         }
     }
 

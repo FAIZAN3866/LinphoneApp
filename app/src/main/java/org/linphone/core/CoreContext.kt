@@ -559,19 +559,19 @@ class CoreContext(
                 }
 
                 // Ensure audio/video conference factory URI is set on sip.linphone.org accounts
-                if (account.params.audioVideoConferenceFactoryAddress == null) {
-                    val uri = corePreferences.audioVideoConferenceServerUri
-                    val address = core.interpretUrl(uri, false)
-                    if (address != null) {
-                        Log.i(
-                            "[Context] Setting audio/video conference factory on account ${params.identityAddress?.asString()} to default value: $uri"
-                        )
-                        params.audioVideoConferenceFactoryAddress = address
-                        paramsChanged = true
-                    } else {
-                        Log.e("[Context] Failed to parse audio/video conference factory URI: $uri")
-                    }
-                }
+//                if (account.params.audioVideoConferenceFactoryAddress == null) {
+//                    val uri = corePreferences.audioVideoConferenceServerUri
+//                    val address = core.interpretUrl(uri, false)
+//                    if (address != null) {
+//                        Log.i(
+//                            "[Context] Setting audio/video conference factory on account ${params.identityAddress?.asString()} to default value: $uri"
+//                        )
+//                        params.audioVideoConferenceFactoryAddress = address
+//                        paramsChanged = true
+//                    } else {
+//                        Log.e("[Context] Failed to parse audio/video conference factory URI: $uri")
+//                    }
+//                }
 
                 // Enable Bundle mode by default
                 if (!account.params.isRtpBundleEnabled) {

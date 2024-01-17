@@ -28,6 +28,9 @@
             name="quitClickListener"
             type="android.view.View.OnClickListener"/>
         <variable
+            name="logoutClickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
             name="viewModel"
             type="org.linphone.activities.main.sidemenu.viewmodels.SideMenuViewModel" />
     </data>
@@ -295,6 +298,28 @@
 
                     <TextView
                         android:text="@string/about"
+                        style="@style/standard_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="16dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:onClick="@{logoutClickListener}"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10dp"
+                        android:contentDescription="@string/about"
+                        android:src="@drawable/menu_about" />
+
+                    <TextView
+                        android:text="@string/logout"
                         style="@style/standard_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"

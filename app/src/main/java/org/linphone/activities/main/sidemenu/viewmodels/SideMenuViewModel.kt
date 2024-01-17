@@ -95,11 +95,11 @@ class SideMenuViewModel : ViewModel() {
         val defaultAccount = coreContext.core.defaultAccount
         if (defaultAccount != null) {
             val defaultViewModel = AccountSettingsViewModel(defaultAccount)
-//            defaultViewModel.accountsSettingsListener = object : SettingListenerStub() {
-//                override fun onAccountClicked(identity: String) {
-//                    accountsSettingsListener.onAccountClicked(identity)
-//                }
-//            }
+            defaultViewModel.accountsSettingsListener = object : SettingListenerStub() {
+                override fun onAccountClicked(identity: String) {
+                    accountsSettingsListener.onAccountClicked(identity)
+                }
+            }
             defaultAccountViewModel.value = defaultViewModel
             defaultAccountFound.value = true
         }

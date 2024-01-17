@@ -30,7 +30,6 @@ import java.security.KeyStoreException
 import org.linphone.LinphoneApplication.Companion.coreContext
 import org.linphone.compatibility.Compatibility
 import org.linphone.core.tools.Log
-import org.linphone.utils.LinphoneUtils
 
 class CorePreferences constructor(private val context: Context) {
     private var _config: Config? = null
@@ -112,7 +111,7 @@ class CorePreferences constructor(private val context: Context) {
         }
 
     var keepServiceAlive: Boolean
-        get() = config.getBool("app", "keep_service_alive", false)
+        get() = config.getBool("app", "keep_service_alive", true)
         set(value) {
             config.setBool("app", "keep_service_alive", value)
         }
@@ -216,6 +215,9 @@ class CorePreferences constructor(private val context: Context) {
     var deviceName: String
         get() = config.getString("app", "device_name", Compatibility.getDeviceName(context))!!
         set(value) = config.setString("app", "device_name", value)
+    var uuid: String?
+        get() = config.getString("app", "uuid", null)
+        set(value) = config.setString("app", "uuid", value)
 
     var chatRoomShortcuts: Boolean
         get() = config.getBool("app", "chat_room_shortcuts", true)
@@ -396,6 +398,11 @@ class CorePreferences constructor(private val context: Context) {
         set(value) {
             config.setString("assistant", "xmlrpc_url", value)
         }
+    var accessToken: String?
+        get() = config.getString("app", "access_token", null)
+        set(value) {
+            config.setString("app", "access_token", value)
+        }
 
     var hideLinkPhoneNumber: Boolean
         get() = config.getBool("app", "hide_link_phone_number", false)
@@ -541,7 +548,7 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getString("app", "default_domain", "sip.telnyx.com")!!
 
     val defaultRlsUri: String
-        get() = config.getString("sip", "rls_uri", "sips:rls@sip.linphone.org")!!
+        get() = config.getString("sip", "rls_uri", "sips:rls@sip.telnyx.com")!!
 
     val debugPopupCode: String
         get() = config.getString("app", "debug_popup_magic", "#1234#")!!
@@ -554,14 +561,14 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getString(
             "app",
             "default_conference_factory_uri",
-            "sip:conference-factory@sip.linphone.org"
+            "sip:conference-factory@sip.telnyx.com"
         )!!
 
     val audioVideoConferenceServerUri: String
         get() = config.getString(
             "app",
             "default_audio_video_conference_factory_uri",
-            "sip:videoconference-factory@sip.linphone.org"
+            null
         )!!
 
     val limeServerUrl: String
@@ -608,7 +615,7 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool(
             "app",
             "side_menu_conferences",
-            LinphoneUtils.isRemoteConferencingAvailable()
+            false
         )
 
     val showAboutInSideMenu: Boolean
@@ -653,7 +660,7 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool(
             "app",
             "settings_conferences",
-            LinphoneUtils.isRemoteConferencingAvailable()
+            false
         )
 
     /* Assets stuff */

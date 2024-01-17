@@ -3,99 +3,203 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="keyListener"
             type="org.linphone.activities.main.dialer.NumpadDigitListener" />
     </data>
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/numpad"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="?attr/backgroundColor"
-        app:flexWrap="wrap"
-        app:justifyContent="space_around"
-        app:alignItems="center"
-        app:alignContent="space_around">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_one"
-            android:contentDescription="@string/content_description_numpad_1"
-            android:onClick="@{() -> keyListener.handleClick('1')}"
-            android:onLongClick="@{() -> keyListener.handleLongClick('1')}"  />
+        <LinearLayout
+            android:id="@+id/numpad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColor"
+            app:alignContent="space_around"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="space_around">
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:contentDescription="@string/content_description_numpad_2"
-            android:src="@drawable/numpad_two"
-            android:onClick="@{() -> keyListener.handleClick('2')}" />
+            <ImageView
+                android:layout_width="wrap_content"
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:contentDescription="@string/content_description_numpad_3"
-            android:src="@drawable/numpad_three"
-            android:onClick="@{() -> keyListener.handleClick('3')}" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_1"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('1')}"
+                android:onLongClick="@{() -> keyListener.handleLongClick('1')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_one" />
 
-        <ImageView
-            style="@style/numpad_digit"
-            app:layout_wrapBefore="true"
-            android:src="@drawable/numpad_four"
-            android:contentDescription="@string/content_description_numpad_4"
-            android:onClick="@{() -> keyListener.handleClick('4')}" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_2"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:hapticFeedbackEnabled="true"
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_five"
-            android:contentDescription="@string/content_description_numpad_5"
-            android:onClick="@{() -> keyListener.handleClick('5')}" />
+                android:onClick="@{() -> keyListener.handleClick('2')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_two" />
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_six"
-            android:contentDescription="@string/content_description_numpad_6"
-            android:onClick="@{() -> keyListener.handleClick('6')}" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
 
-        <ImageView
-            style="@style/numpad_digit"
-            app:layout_wrapBefore="true"
-            android:src="@drawable/numpad_seven"
-            android:contentDescription="@string/content_description_numpad_7"
-            android:onClick="@{() -> keyListener.handleClick('7')}" />
+                android:contentDescription="@string/content_description_numpad_3"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:hapticFeedbackEnabled="true"
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_eight"
-            android:contentDescription="@string/content_description_numpad_8"
-            android:onClick="@{() -> keyListener.handleClick('8')}" />
+                android:onClick="@{() -> keyListener.handleClick('3')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_three" />
+        </LinearLayout>
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_nine"
-            android:contentDescription="@string/content_description_numpad_9"
-            android:onClick="@{() -> keyListener.handleClick('9')}" />
+        <LinearLayout
 
-        <ImageView
-            style="@style/numpad_digit"
-            app:layout_wrapBefore="true"
-            android:src="@drawable/numpad_star_digit"
-            android:contentDescription="@string/content_description_numpad_star"
-            android:onClick="@{() -> keyListener.handleClick('*')}" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColor"
+            app:alignContent="space_around"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="space_around">
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_zero"
-            android:onClick="@{() -> keyListener.handleClick('0')}"
-            android:contentDescription="@string/content_description_numpad_0"
-            android:onLongClick="@{() -> keyListener.handleLongClick('+')}"/>
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_4"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
 
-        <ImageView
-            style="@style/numpad_digit"
-            android:src="@drawable/numpad_sharp"
-            android:contentDescription="@string/content_description_numpad_sharp"
-            android:onClick="@{() -> keyListener.handleClick('#')}" />
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('4')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_four"
+                app:layout_wrapBefore="true" />
 
-    </com.google.android.flexbox.FlexboxLayout>
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_5"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('5')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_five" />
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_6"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('6')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_six" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColor"
+            app:alignContent="space_around"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="space_around">
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_7"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('7')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_seven"
+                app:layout_wrapBefore="true" />
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_8"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('8')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_eight" />
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_9"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('9')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_nine" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColor"
+            app:alignContent="space_around"
+            app:alignItems="center"
+            app:flexWrap="wrap"
+            app:justifyContent="space_around">
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_star"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('*')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_star_digit"
+                app:layout_wrapBefore="true" />
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_0"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('0')}"
+                android:onLongClick="@{() -> keyListener.handleLongClick('+')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_zero" />
+
+            <ImageView
+                style="@style/numpad_digit"
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_numpad_sharp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{() -> keyListener.handleClick('#')}"
+                android:padding="10dp"
+                android:src="@drawable/numpad_sharp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </layout>

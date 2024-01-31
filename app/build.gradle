@@ -136,7 +136,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -144,7 +144,11 @@ android {
             resValue "string", "sync_account_type", packageName + ".sync"
             resValue "string", "file_provider", packageName + ".fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
-
+            buildConfigField "String", "API_URL","\"https://api.crm.staging.insurance4truck.com/api/\""
+            buildConfigField "String", "OAUTH_TOKEN_URL","\"https://api.crm.staging.insurance4truck.com/oauth/token\""
+            buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
+            buildConfigField "String", "REDIRECT_URI","\"com.insurance4truck.debug://redirect\""
+            buildConfigField "String", "AUTHORIZE_ENDPOINT","\"https://api.crm.staging.insurance4truck.com/oauth/authorize\""
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"
             }
@@ -183,6 +187,11 @@ android {
             resValue "string", "file_provider", packageName + ".debug.fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
             resValue "bool", "crashlytics_enabled", crashlyticsAvailable.toString()
+            buildConfigField "String", "API_URL","\"https://api.crm.staging.insurance4truck.com/api/\""
+            buildConfigField "String", "OAUTH_TOKEN_URL","\"https://api.crm.staging.insurance4truck.com/oauth/token\""
+            buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
+            buildConfigField "String", "REDIRECT_URI","\"com.insurance4truck.debug://redirect\""
+            buildConfigField "String", "AUTHORIZE_ENDPOINT","\"https://api.crm.staging.insurance4truck.com/oauth/authorize\""
 
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"

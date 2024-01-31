@@ -1,7 +1,9 @@
 package org.linphone.ui.login
 
+import com.google.errorprone.annotations.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class TokenResponse(
     @SerializedName("access_token")
     val accessToken: String,

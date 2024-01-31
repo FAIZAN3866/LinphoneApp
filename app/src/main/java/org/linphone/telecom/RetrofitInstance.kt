@@ -4,13 +4,14 @@ import com.google.gson.GsonBuilder
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.linphone.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInstance {
 
     companion object {
-        val BASE_URL = "https://api.crm.staging.insurance4truck.com/api/"
+        val BASE_URL = BuildConfig.API_URL
 
         val interceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY

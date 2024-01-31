@@ -15,6 +15,7 @@ import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import org.linphone.BuildConfig
 import org.linphone.LinphoneApplication
 import org.linphone.LinphoneApplication.Companion.corePreferences
 import org.linphone.R
@@ -56,9 +57,9 @@ class LoginActivity : AppCompatActivity() {
         /* Previously we sent the code challenge. Now we send the code verifier used
            to generate the code challenge.
         */
-        val clientId = "9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15"
-        val redirectUri = "com.insurance4truck.debug://redirect"
-        val baseUrl = "https://api.crm.staging.insurance4truck.com/oauth/token"
+        val clientId = BuildConfig.CLIENT_ID
+        val redirectUri = BuildConfig.REDIRECT_URI
+        val baseUrl = BuildConfig.OAUTH_TOKEN_URL
         val grantType = "authorization_code"
 
         // Get the form body passing in the code verifier.
@@ -128,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
         }
         val devicName = corePreferences.deviceName
 //        Log.e("identifier", deviceIdentifier)
-        val baseUrl = "https://api.crm.staging.insurance4truck.com/api/v1/telnyx/sip-credentials?device_name=$devicName&device_identifier=ANDR $deviceIdentifier"
+        val baseUrl = BuildConfig.API_URL + "v1/telnyx/sip-credentials?device_name=$devicName&device_identifier=ANDR $deviceIdentifier"
 
         // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
         // and the form body
@@ -176,7 +177,7 @@ class LoginActivity : AppCompatActivity() {
         /* Previously we sent the code challenge. Now we send the code verifier used
            to generate the code challenge.
         */
-        val baseUrl = "https://api.crm.staging.insurance4truck.com/api/v1/phone-connections"
+        val baseUrl = BuildConfig.API_URL + "v1/phone-connections"
 
         // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
         // and the form body

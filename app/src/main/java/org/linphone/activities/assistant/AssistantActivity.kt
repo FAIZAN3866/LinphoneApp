@@ -35,13 +35,13 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import java.net.URLEncoder
 import java.util.UUID
+import org.linphone.BuildConfig
 import org.linphone.LinphoneApplication.Companion.corePreferences
 import org.linphone.R
 import org.linphone.activities.GenericActivity
 import org.linphone.activities.SnackBarActivity
 import org.linphone.activities.assistant.viewmodels.SharedAssistantViewModel
 import org.linphone.core.tools.Log
-import org.linphone.utils.Config
 import org.linphone.utils.PKCEUtil
 
 class AssistantActivity : GenericActivity(), SnackBarActivity {
@@ -92,7 +92,7 @@ class AssistantActivity : GenericActivity(), SnackBarActivity {
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
         webView.webViewClient = MyWebViewClient(this)
 
-        webView.loadUrl("${Config.AUTHORIZE_ENDPOINT}?$authParams")
+        webView.loadUrl("${BuildConfig.AUTHORIZE_ENDPOINT}?$authParams")
 
         // Initiate the OAuth 2.0 flow using CustomTabs<url>.
 //        CustomTabsIntent.Builder().build().launchUrl(
@@ -129,7 +129,7 @@ class AssistantActivity : GenericActivity(), SnackBarActivity {
             activity.findViewById<ProgressBar>(R.id.progress).visibility = View.VISIBLE
 
             val url = request?.url.toString()
-            if (url.startsWith("com.insurance4truck.debug://redirect")) {
+            if (url.startsWith(BuildConfig.REDIRECT_URI)) {
                 activity.findViewById<ProgressBar>(R.id.progress).visibility = View.VISIBLE
 
 //            if (host == null) {

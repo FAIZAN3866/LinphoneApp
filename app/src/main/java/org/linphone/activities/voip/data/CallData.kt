@@ -39,7 +39,7 @@ open class CallData(val call: Call) : GenericContactData(call.remoteAddress) {
         fun onShowContextMenu(anchor: View, callData: CallData)
     }
 
-    val displayableAddress = MutableLiveData<String>()
+    var displayableAddress = MutableLiveData<String>()
 
     val isPaused = MutableLiveData<Boolean>()
     val isRemotelyPaused = MutableLiveData<Boolean>()
@@ -210,6 +210,9 @@ open class CallData(val call: Call) : GenericContactData(call.remoteAddress) {
         }
     }
 
+    fun updateDisplayName(v: String) {
+        displayableAddress.value = v
+    }
     private fun update() {
         isRecording.value = call.params.isRecording
         isPaused.value = isCallPaused()

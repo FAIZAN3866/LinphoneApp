@@ -160,7 +160,8 @@ class Api26Compatibility {
             call: Call,
             notifiable: Notifiable,
             pendingIntent: PendingIntent,
-            notificationsManager: NotificationsManager
+            notificationsManager: NotificationsManager,
+            displayNameFromAddress: String
         ): Notification {
             val contact: Friend?
             val roundPicture: Bitmap?
@@ -209,8 +210,11 @@ class Api26Compatibility {
                 context.packageName,
                 R.layout.call_incoming_notification_heads_up
             )
-            notificationLayoutHeadsUp.setTextViewText(R.id.caller, displayName)
-            notificationLayoutHeadsUp.setTextViewText(R.id.sip_uri, address)
+            notificationLayoutHeadsUp.setTextViewText(R.id.caller, displayNameFromAddress)
+            notificationLayoutHeadsUp.setTextViewText(
+                R.id.sip_uri,
+                displayName
+            )
             notificationLayoutHeadsUp.setTextViewText(R.id.incoming_call_info, info)
 
             if (roundPicture != null) {

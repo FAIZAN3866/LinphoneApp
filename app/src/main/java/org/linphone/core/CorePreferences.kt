@@ -622,10 +622,9 @@ class CorePreferences constructor(private val context: Context) {
         get() = config.getBool("app", "side_menu_about", true)
 
     val showQuitInSideMenu: Boolean
-        get() = config.getBool("app", "side_menu_quit", true)
+        get() = config.getBool("app", "side_menu_quit", false)
 
     /* Settings */
-
     val allowDtlsTransport: Boolean
         get() = config.getBool("app", "allow_dtls_transport", false)
 

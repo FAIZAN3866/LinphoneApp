@@ -219,7 +219,8 @@ class Compatibility {
             call: Call,
             notifiable: Notifiable,
             pendingIntent: PendingIntent,
-            notificationsManager: NotificationsManager
+            notificationsManager: NotificationsManager,
+            displayNameFromAddress: String
         ): Notification {
             val manufacturer = Build.MANUFACTURER.lowercase(Locale.getDefault())
             // Samsung One UI 4.0 (API 31) doesn't (currently) display CallStyle notifications well
@@ -230,7 +231,8 @@ class Compatibility {
                     call,
                     notifiable,
                     pendingIntent,
-                    notificationsManager
+                    notificationsManager,
+                    displayNameFromAddress
                 )
             } else if (manufacturer == "xiaomi") { // Xiaomi devices don't handle CustomHeadsUpContentView correctly
                 return XiaomiCompatibility.createIncomingCallNotification(
@@ -238,7 +240,9 @@ class Compatibility {
                     call,
                     notifiable,
                     pendingIntent,
-                    notificationsManager
+                    notificationsManager,
+                    displayNameFromAddress
+
                 )
             }
             return Api26Compatibility.createIncomingCallNotification(
@@ -246,7 +250,8 @@ class Compatibility {
                 call,
                 notifiable,
                 pendingIntent,
-                notificationsManager
+                notificationsManager,
+                displayNameFromAddress
             )
         }
 

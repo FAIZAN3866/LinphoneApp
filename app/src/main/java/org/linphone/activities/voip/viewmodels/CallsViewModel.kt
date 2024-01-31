@@ -33,7 +33,7 @@ import org.linphone.utils.Event
 import org.linphone.utils.PermissionHelper
 
 class CallsViewModel : ViewModel() {
-    val currentCallData = MutableLiveData<CallData>()
+    var currentCallData = MutableLiveData<CallData>()
 
     val callsData = MutableLiveData<List<CallData>>()
 
@@ -67,6 +67,9 @@ class CallsViewModel : ViewModel() {
         MutableLiveData<Event<String>>()
     }
 
+    fun updateCall(v: String) {
+        currentCallData.value?.displayableAddress?.value = v
+    }
     private val listener = object : CoreListenerStub() {
         override fun onChatRoomRead(core: Core, chatRoom: ChatRoom) {
             updateUnreadChatCount()

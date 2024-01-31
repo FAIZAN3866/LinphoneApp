@@ -91,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
                     TokenResponse::class.java
                 )
 //                Log.e("return token", gson.toJson(response.body))
-//                Log.e("return token response ", tokenResponse)
+                Log.e("return token response ", tokenResponse)
 
                 // Split the ID Token to get attempt to get the payload.
                 val segments = tokenResponse.accessToken.split(".").toTypedArray()

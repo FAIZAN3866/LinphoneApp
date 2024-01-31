@@ -49,7 +49,9 @@ class Api31Compatibility {
             call: Call,
             notifiable: Notifiable,
             pendingIntent: PendingIntent,
-            notificationsManager: NotificationsManager
+            notificationsManager: NotificationsManager,
+            displayNameFromAddress: String
+
         ): Notification {
             val remoteContact = call.remoteContact
             val conferenceAddress = if (remoteContact != null) {
@@ -134,7 +136,8 @@ class Api31Compatibility {
                         call,
                         notifiable,
                         pendingIntent,
-                        notificationsManager
+                        notificationsManager,
+                        displayNameFromAddress
                     )
                 }
                 setSmallIcon(R.drawable.topbar_call_notification)

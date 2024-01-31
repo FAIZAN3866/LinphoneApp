@@ -163,6 +163,7 @@ class SideMenuFragment : GenericFragment<SideMenuFragmentBinding>() {
             // Clear all the cookies
             CookieManager.getInstance().removeAllCookies(null)
             CookieManager.getInstance().flush()
+            corePreferences.accessToken = null
             val intent = Intent(context, AssistantActivity::class.java)
             intent.addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK

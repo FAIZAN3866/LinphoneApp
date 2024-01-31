@@ -53,6 +53,7 @@ class CallActivity : ProximitySensorActivity() {
     private lateinit var callsViewModel: CallsViewModel
     private lateinit var conferenceViewModel: ConferenceViewModel
     private lateinit var statsViewModel: StatisticsListViewModel
+    private lateinit var displayName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Flag in manifest should be enough starting Android 8.1
@@ -66,6 +67,9 @@ class CallActivity : ProximitySensorActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.voip_activity)
         binding.lifecycleOwner = this
+        if (intent.hasExtra("display_name")) {
+            displayName = intent.getStringExtra("display_name").toString()
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -79,6 +83,8 @@ class CallActivity : ProximitySensorActivity() {
         binding.controlsViewModel = controlsViewModel
 
         callsViewModel = ViewModelProvider(navControllerStoreOwner)[CallsViewModel::class.java]
+
+        callsViewModel.updateCall(displayName)
 
         conferenceViewModel = ViewModelProvider(navControllerStoreOwner)[ConferenceViewModel::class.java]
 
@@ -143,6 +149,7 @@ class CallActivity : ProximitySensorActivity() {
             this
         ) { callData ->
             val call = callData.call
+
             if (call.conference == null) {
                 Log.i(
                     "[Call Activity] Current call isn't linked to a conference, switching to SingleCall fragment"

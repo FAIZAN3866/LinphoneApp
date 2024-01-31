@@ -229,6 +229,13 @@ class LinphoneUtils {
             return false
         }
 
+        @SuppressLint("MissingPermission")
+        fun checkIfNetworkAvailable(context: Context): Boolean {
+            val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
+            return networkInfo != null && networkInfo.isConnected
+        }
+
         fun isCallLogMissed(callLog: CallLog): Boolean {
             return (
                 callLog.dir == Call.Dir.Incoming &&

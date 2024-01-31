@@ -32,36 +32,39 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.webkit.CookieManager
+import android.webkit.WebStorage
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.doOnAttach
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.liveData
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.window.layout.FoldingFeature
 import coil.imageLoader
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.util.UUID
-import java.util.concurrent.TimeUnit
 import kotlin.Exception
 import kotlin.math.abs
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.linphone.LinphoneApplication.Companion.coreContext
 import org.linphone.LinphoneApplication.Companion.corePreferences
 import org.linphone.R
 import org.linphone.activities.*
 import org.linphone.activities.assistant.AssistantActivity
+import org.linphone.activities.assistant.viewmodels.SharedAssistantViewModel
 import org.linphone.activities.main.viewmodels.CallOverlayViewModel
 import org.linphone.activities.main.viewmodels.DialogViewModel
 import org.linphone.activities.main.viewmodels.SharedMainViewModel
@@ -72,17 +75,21 @@ import org.linphone.core.AuthMethod
 import org.linphone.core.Core
 import org.linphone.core.CoreListenerStub
 import org.linphone.core.CorePreferences
+import org.linphone.core.TransportType
 import org.linphone.core.tools.Log
+import org.linphone.data.model.PhoneConnections
+import org.linphone.data.model.SipCredentials
 import org.linphone.databinding.MainActivityBinding
-import org.linphone.ui.login.DeviceConnectionsResponse
-import org.linphone.ui.login.SipCredentialsResponse
+import org.linphone.telecom.NetworkInterface
+import org.linphone.telecom.RetrofitInstance
 import org.linphone.utils.*
+import retrofit2.Response
 
 class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestinationChangedListener {
     private lateinit var binding: MainActivityBinding
     private lateinit var sharedViewModel: SharedMainViewModel
     private lateinit var callOverlayViewModel: CallOverlayViewModel
-
+    private lateinit var retrofitInstance: NetworkInterface
     private val listener = object : ContactsUpdatedListenerStub() {
         override fun onContactsUpdated() {
             Log.i("[Main Activity] Contact(s) updated, update shortcuts")
@@ -149,6 +156,9 @@ class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestin
 
         // Must be done before the setContentView
         installSplashScreen()
+        retrofitInstance = RetrofitInstance
+            .getRetrofitInstance()
+            .create(NetworkInterface::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity)
         binding.lifecycleOwner = this
@@ -222,10 +232,11 @@ class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestin
         coreContext.core.addListener(coreListener)
         if (coreContext.core.accountList.isEmpty()) {
 //            if (corePreferences.firstStart) {
-
             startActivity(Intent(this, AssistantActivity::class.java))
+            finish()
 //            }
         }
+
         corePreferences.accessToken?.let { getAccessToken(it) }
     }
 
@@ -748,165 +759,140 @@ class MainActivity : GenericActivity(), SnackBarActivity, NavController.OnDestin
         authenticationRequiredDialog = dialog
     }
 
-    private fun getConnections(code: String, tokenResponse: SipCredentialsResponse) {
+    private fun getAccessToken(code: String) {
+        var deviceIdentifier = corePreferences.uuid
+        if (deviceIdentifier.isNullOrEmpty()) {
+            deviceIdentifier = UUID.randomUUID().toString()
+            corePreferences.uuid = deviceIdentifier
+        }
+        val devicName = corePreferences.deviceName
         try {
-            val client = OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build()
-           /* Previously we sent the code challenge. Now we send the code verifier used
-           to generate the code challenge.
-        */
-            val baseUrl = "https://api.crm.staging.insurance4truck.com/api/v1/phone-connections"
+            if (LinphoneUtils.checkIfNetworkAvailable(this)) {
+                val pathResponse: LiveData<Response<SipCredentials>> = liveData {
+                    val response = retrofitInstance.getSipCredentials(
+                        "application/json",
+                        "application/x-www-form-urlencoded",
+                        "Bearer $code",
+                        devicName,
+                        "ANDR " + deviceIdentifier
+                    )
+                    emit(response)
+                }
 
-            // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
-            // and the form body
-            val request = Request.Builder()
-                .url(baseUrl)
-                .get()
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Bearer $code")
-                .build()
+                pathResponse.observe(
+                    this,
+                    Observer {
+                        val tokenResponse = it.body()
+                        if (tokenResponse != null) {
+                            getConnections(code, tokenResponse)
+                        } else {
+                            val account = coreContext.core.accountList
+                            for (a in account) {
+                                val authInfo = a.findAuthInfo()
+                                if (authInfo != null) {
+                                    Log.i(
+                                        "[Account Settings] Found auth info $authInfo, removing it."
+                                    )
+                                    coreContext.core.removeAuthInfo(authInfo)
+                                } else {
+                                    Log.w("[Account Settings] Couldn't find matching auth info...")
+                                }
 
-            // Perform the token request on a background thread.
-            Thread {
-                val response = client.newCall(request).execute()
-                if (response.body != null) {
-                    // Marshal the response from the token endpoint.
-                    try {
-                        val gson = Gson()
-                        // Marshal the response from the token endpoint.
-                        val deviceConnectionsResponse = gson.fromJson(
-                            response.body?.string(),
-                            DeviceConnectionsResponse::class.java
-                        )
+                                coreContext.core.removeAccount(a)
+                            }
+                            WebStorage.getInstance().deleteAllData()
+                            // Clear all the cookies
+                            CookieManager.getInstance().removeAllCookies(null)
+                            CookieManager.getInstance().flush()
+                            corePreferences.accessToken = null
 
-                        val account = coreContext.core.defaultAccount
+                            val intent = Intent(this, AssistantActivity::class.java)
+                            intent.addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            )
+                            startActivity(intent)
+                        }
+                    }
 
-                        if (account != null) {
-                            val authInfo = account.findAuthInfo()
-                            if (authInfo?.username != tokenResponse.username || authInfo.password != tokenResponse.password) {
+                )
+            } else {
+                Toast.makeText(
+                    this,
+                    this.resources.getString(R.string.call_error_network_unreachable),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch (_: Exception) {
+        }
+    }
+    private fun getConnections(code: String, sipCredentials: SipCredentials) {
+        try {
+            if (LinphoneUtils.checkIfNetworkAvailable(this)) {
+                val pathResponse: LiveData<Response<PhoneConnections>> = liveData {
+                    val response = retrofitInstance.getPhoneConnections(
+                        "application/json",
+                        "application/x-www-form-urlencoded",
+                        "Bearer $code"
+                    )
+                    emit(response)
+                }
+
+                pathResponse.observe(
+                    this,
+                    Observer {
+                        val tokenResponse = it.body()
+                        if (tokenResponse != null) {
+                            val account = coreContext.core.defaultAccount
+
+                            if (account != null) {
+                                var sharedAssistantViewModel: SharedAssistantViewModel = this.run {
+                                    ViewModelProvider(this)[SharedAssistantViewModel::class.java]
+                                }
                                 val params = account.params.clone()
                                 val identity = params.identityAddress
-                                if (identity != null) {
-                                    identity.displayName =
-                                        deviceConnectionsResponse.data[0].full_phone_number
-                                    identity.username = tokenResponse.username
-                                    params.identityAddress = identity
-                                    account.params = params
-                                } else {
-                                    Log.e("[Account Settings] Account doesn't have an identity yet")
+                                if (identity?.username != sipCredentials.username || identity.displayName != tokenResponse.data[0].fullPhoneNumber) {
+                                    coreContext.core.removeAccount(account)
+                                    val accountCreator =
+                                        sharedAssistantViewModel.getAccountCreator(false)
+                                    accountCreator.username = sipCredentials.username
+                                    accountCreator.password = sipCredentials.password
+                                    accountCreator.domain = corePreferences.defaultDomain
+                                    accountCreator.displayName = tokenResponse.data[0].fullPhoneNumber
+                                    accountCreator.transport = TransportType.Tls
+                                    accountCreator.setAsDefault(true)
+                                    accountCreator.createAccountInCore()
                                 }
                             }
-                        }
-                    } catch (e: Exception) {
-                        val account = coreContext.core.accountList
-                        for (a in account) {
-                            val authInfo = a.findAuthInfo()
-                            if (authInfo != null) {
-                                Log.i("[Account Settings] Found auth info $authInfo, removing it.")
-                                coreContext.core.removeAuthInfo(authInfo)
-                            } else {
-                                Log.w("[Account Settings] Couldn't find matching auth info...")
+                        } else {
+                            val account = coreContext.core.accountList
+                            for (a in account) {
+                                val authInfo = a.findAuthInfo()
+                                if (authInfo != null) {
+                                    Log.i(
+                                        "[Account Settings] Found auth info $authInfo, removing it."
+                                    )
+                                    coreContext.core.removeAuthInfo(authInfo)
+                                } else {
+                                    Log.w("[Account Settings] Couldn't find matching auth info...")
+                                }
+
+                                coreContext.core.removeAccount(a)
                             }
+                            WebStorage.getInstance().deleteAllData()
+                            // Clear all the cookies
+                            CookieManager.getInstance().removeAllCookies(null)
+                            CookieManager.getInstance().flush()
+                            corePreferences.accessToken = null
 
-                            coreContext.core.removeAccount(a)
+                            val intent = Intent(this, AssistantActivity::class.java)
+                            intent.addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            )
+                            startActivity(intent)
                         }
-
-                        val intent = Intent(this, AssistantActivity::class.java)
-                        intent.addFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        )
-                        startActivity(intent)
                     }
-                }
-            }.start()
-        } catch (_: Exception) {}
-    }
-    private fun getAccessToken(code: String) {
-        try {
-            val client = OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build()
-            /* Previously we sent the code challenge. Now we send the code verifier used
-           to generate the code challenge.
-        */
-            var deviceIdentifier = corePreferences.uuid
-            if (deviceIdentifier.isNullOrEmpty()) {
-                deviceIdentifier = UUID.randomUUID().toString()
-                corePreferences.uuid = deviceIdentifier
+                )
             }
-            val devicName = corePreferences.deviceName
-//        Log.e("identifier", deviceIdentifier)
-            val baseUrl =
-                "https://api.crm.staging.insurance4truck.com/api/v1/telnyx/sip-credentials?device_name=$devicName&device_identifier=ANDR $deviceIdentifier"
-
-            // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
-            // and the form body
-            val request = Request.Builder()
-                .url(baseUrl)
-                .get()
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Bearer $code")
-                .build()
-
-            // Perform the token request on a background thread.
-            val thr = Thread {
-                val response = client.newCall(request).execute()
-                if (response.body != null) {
-                    val gson = Gson()
-                    try {
-                        // Marshal the response from the token endpoint.
-                        val tokenResponse = gson.fromJson(
-                            response.body?.string(),
-                            SipCredentialsResponse::class.java
-                        )
-//                Log.e("return sip", gson.toJson(response.body))
-//                Log.e("return sip cred:  ", tokenResponse)
-//                var sharedAssistantViewModel: SharedAssistantViewModel = this.run {
-//                    ViewModelProvider(this)[SharedAssistantViewModel::class.java]
-//                }
-//                val accountCreator = sharedAssistantViewModel.getAccountCreator(true)
-//                accountCreator.username = tokenResponse.username
-//                accountCreator.password = tokenResponse.password
-//                accountCreator.domain = corePreferences.defaultDomain
-// //                accountCreator.displayName = "llllllll"
-//                accountCreator.transport = TransportType.Tls
-//
-//                val account = accountCreator.createAccountInCore()
-                        getConnections(code, tokenResponse)
-                    } catch (e: Exception) {
-                        val account = coreContext.core.accountList
-                        for (a in account) {
-                            val authInfo = a.findAuthInfo()
-                            if (authInfo != null) {
-                                Log.i("[Account Settings] Found auth info $authInfo, removing it.")
-                                coreContext.core.removeAuthInfo(authInfo)
-                            } else {
-                                Log.w("[Account Settings] Couldn't find matching auth info...")
-                            }
-
-                            coreContext.core.removeAccount(a)
-//                        accountRemovedEvent.value = Event(true)
-                        }
-
-                        val intent = Intent(this, AssistantActivity::class.java)
-                        intent.addFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        )
-                        startActivity(intent)
-                    }
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                startActivity(intent)
-                }
-
-            }.start()
-
         } catch (_: Exception) {}
     }
-
 }

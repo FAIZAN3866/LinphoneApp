@@ -46,7 +46,8 @@ class XiaomiCompatibility {
             call: Call,
             notifiable: Notifiable,
             pendingIntent: PendingIntent,
-            notificationsManager: NotificationsManager
+            notificationsManager: NotificationsManager,
+            displayNameFromAddress: String
         ): Notification {
             val contact: Friend?
             val roundPicture: Bitmap?
@@ -95,7 +96,9 @@ class XiaomiCompatibility {
                 context,
                 context.getString(R.string.notification_channel_incoming_call_id)
             )
-                .addPerson(notificationsManager.getPerson(contact, displayName, roundPicture))
+                .addPerson(
+                    notificationsManager.getPerson(contact, displayNameFromAddress, roundPicture)
+                )
                 .setSmallIcon(R.drawable.topbar_call_notification)
                 .setLargeIcon(
                     roundPicture ?: BitmapFactory.decodeResource(
@@ -103,8 +106,8 @@ class XiaomiCompatibility {
                         R.drawable.voip_single_contact_avatar_alt
                     )
                 )
-                .setContentTitle(displayName)
-                .setContentText(address)
+                .setContentTitle(displayNameFromAddress)
+                .setContentText(displayName)
                 .setSubText(info)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

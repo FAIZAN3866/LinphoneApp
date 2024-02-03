@@ -103,7 +103,6 @@ class LoginActivity : AppCompatActivity() {
                 // Verify the ID Token has the correct number of segments.
                 if (segments.size == 3) {
 //                    Log.e("return token segments size", segments)
-
                     // Extract the payload from ID Token segments and include in the intent.
                     val idToken = tokenResponse.accessToken
                     getAccessToken(idToken)

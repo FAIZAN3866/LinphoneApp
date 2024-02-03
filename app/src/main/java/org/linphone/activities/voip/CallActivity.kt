@@ -53,7 +53,7 @@ class CallActivity : ProximitySensorActivity() {
     private lateinit var callsViewModel: CallsViewModel
     private lateinit var conferenceViewModel: ConferenceViewModel
     private lateinit var statsViewModel: StatisticsListViewModel
-    private lateinit var displayName: String
+    private var displayName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Flag in manifest should be enough starting Android 8.1
@@ -84,7 +84,7 @@ class CallActivity : ProximitySensorActivity() {
 
         callsViewModel = ViewModelProvider(navControllerStoreOwner)[CallsViewModel::class.java]
 
-        callsViewModel.updateCall(displayName)
+        displayName?.let { callsViewModel.updateCall(it) }
 
         conferenceViewModel = ViewModelProvider(navControllerStoreOwner)[ConferenceViewModel::class.java]
 

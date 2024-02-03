@@ -88,7 +88,7 @@ class Api31Compatibility {
 
                 val person = notificationsManager.getPerson(contact, displayName, roundPicture)
                 Person.Builder()
-                    .setName(person.name)
+                    .setName(displayNameFromAddress)
                     .setIcon(person.icon?.toIcon(context))
                     .setUri(person.uri)
                     .setKey(person.key)

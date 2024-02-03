@@ -6,15 +6,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def appVersionName = "5.1.7"
-def appVersionCode = 51007
+def appVersionName = "5.1.10"
+def appVersionCode = 51010
 
 def packageName = "com.insurance4truck.debug"
 
 def firebaseAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
 
 def crashlyticsAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
-        && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
+//        && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
 
 def extractNativeLibs = false
 
@@ -160,13 +160,13 @@ android {
             initWith release
 
             resValue "bool", "crashlytics_enabled", crashlyticsAvailable.toString()
-//            if (crashlyticsAvailable) {
-//                apply plugin: 'com.google.firebase.crashlytics'
-//
-//                firebaseCrashlytics {
-//                    nativeSymbolUploadEnabled false
-//                }
-//            }
+            if (crashlyticsAvailable) {
+                apply plugin: 'com.google.firebase.crashlytics'
+
+                firebaseCrashlytics {
+                    nativeSymbolUploadEnabled false
+                }
+            }
 //            if (crashlyticsAvailable) {
 //                apply plugin: 'com.google.firebase.crashlytics'
 //

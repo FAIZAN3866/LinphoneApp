@@ -770,120 +770,47 @@ class NotificationsManager(private val context: Context) {
                     if (response.isSuccessful) {
                         val post = response.body()
                         if (post != null) {
-                            displayNameFromAddress = post.names[0]
-//                            var callsViewModel: CallsViewModel = this.run {
-//                                ViewModelProvider(coreContext)[CallsViewModel::class.java]
-//                            }
-//                            callsViewModel.callsData.value?.get(0)?.contact?.value?.name = displayNameFromAddress
-//                            callsViewModel.callsData.value?.get(0)?.displayName?.value = displayNameFromAddress
-//                            callsViewModel.updateCall(displayNameFromAddress)
-                            incomingCallNotificationIntent.putExtra(
-                                "display_name",
-                                displayNameFromAddress
-                            )
-                            val pendingIntent = PendingIntent.getActivity(
-                                context,
-                                0,
+                            createNotificationFromCallerIdAPI(
+                                if (post.names.isNotEmpty()) {
+                                    post.names[0]
+                                } else {
+                                    address
+                                },
                                 incomingCallNotificationIntent,
-                                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                            )
-                            val notification = Compatibility.createIncomingCallNotification(
-                                context,
                                 call,
                                 notifiable,
-                                pendingIntent,
-                                this@NotificationsManager,
-                                displayNameFromAddress
+                                useAsForeground
                             )
-                            Log.i(
-                                "[Notifications Manager] Notifying incoming call notification [${notifiable.notificationId}]"
+                        } else {
+                            createNotificationFromCallerIdAPI(
+                                address,
+                                incomingCallNotificationIntent,
+                                call,
+                                notifiable,
+                                useAsForeground
                             )
-                            if (notification != null) {
-                                notify(notifiable.notificationId, notification)
-                            }
-
-                            if (useAsForeground) {
-                                Log.i(
-                                    "[Notifications Manager] Notifying incoming call notification for foreground service [${notifiable.notificationId}]"
-                                )
-                                if (notification != null) {
-                                    startForeground(notifiable.notificationId, notification)
-                                }
-                            }
-//                                displayNameFromAddress = tokenResponse.data.get(0).displayPhone
                         } // Handle the retrieved post data
                     } else {
-                        displayNameFromAddress = address
-                        incomingCallNotificationIntent.putExtra(
-                            "display_name",
-                            displayNameFromAddress
-                        )
-                        val pendingIntent = PendingIntent.getActivity(
-                            context,
-                            0,
+                        createNotificationFromCallerIdAPI(
+                            address,
                             incomingCallNotificationIntent,
-                            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                        )
-                        val notification = Compatibility.createIncomingCallNotification(
-                            context,
                             call,
                             notifiable,
-                            pendingIntent,
-                            this@NotificationsManager,
-                            displayNameFromAddress
+                            useAsForeground
                         )
-                        Log.i(
-                            "[Notifications Manager] Notifying incoming call notification [${notifiable.notificationId}]"
-                        )
-                        if (notification != null) {
-                            notify(notifiable.notificationId, notification)
-                        }
-
-                        if (useAsForeground) {
-                            Log.i(
-                                "[Notifications Manager] Notifying incoming call notification for foreground service [${notifiable.notificationId}]"
-                            )
-                            if (notification != null) {
-                                startForeground(notifiable.notificationId, notification)
-                            }
-                        }
                         // Handle error
                     }
                 }
 
                 override fun onFailure(call1: retrofit2.Call<CallerIdLookup>, t: Throwable) {
                     // Handle failure
-                    displayNameFromAddress = address
-                    incomingCallNotificationIntent.putExtra("display_name", displayNameFromAddress)
-                    val pendingIntent = PendingIntent.getActivity(
-                        context,
-                        0,
+                    createNotificationFromCallerIdAPI(
+                        address,
                         incomingCallNotificationIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
-                    val notification = Compatibility.createIncomingCallNotification(
-                        context,
                         call,
                         notifiable,
-                        pendingIntent,
-                        this@NotificationsManager,
-                        displayNameFromAddress
+                        useAsForeground
                     )
-                    Log.i(
-                        "[Notifications Manager] Notifying incoming call notification [${notifiable.notificationId}]"
-                    )
-                    if (notification != null) {
-                        notify(notifiable.notificationId, notification)
-                    }
-
-                    if (useAsForeground) {
-                        Log.i(
-                            "[Notifications Manager] Notifying incoming call notification for foreground service [${notifiable.notificationId}]"
-                        )
-                        if (notification != null) {
-                            startForeground(notifiable.notificationId, notification)
-                        }
-                    }
                 }
             })
         }
@@ -910,6 +837,49 @@ class NotificationsManager(private val context: Context) {
 //                startForeground(notifiable.notificationId, notification)
 //            }
 //        }
+    }
+
+    private fun createNotificationFromCallerIdAPI(
+        address: String,
+        incomingCallNotificationIntent: Intent,
+        call: Call,
+        notifiable: Notifiable,
+        useAsForeground: Boolean
+    ) {
+        displayNameFromAddress = address
+        incomingCallNotificationIntent.putExtra(
+            "display_name",
+            displayNameFromAddress
+        )
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            incomingCallNotificationIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val notification = Compatibility.createIncomingCallNotification(
+            context,
+            call,
+            notifiable,
+            pendingIntent,
+            this@NotificationsManager,
+            displayNameFromAddress
+        )
+        Log.i(
+            "[Notifications Manager] Notifying incoming call notification [${notifiable.notificationId}]"
+        )
+        if (notification != null) {
+            notify(notifiable.notificationId, notification)
+        }
+
+        if (useAsForeground) {
+            Log.i(
+                "[Notifications Manager] Notifying incoming call notification for foreground service [${notifiable.notificationId}]"
+            )
+            if (notification != null) {
+                startForeground(notifiable.notificationId, notification)
+            }
+        }
     }
 
     private fun displayMissedCallNotification(

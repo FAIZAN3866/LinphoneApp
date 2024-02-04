@@ -144,7 +144,7 @@ android {
             resValue "string", "sync_account_type", packageName + ".sync"
             resValue "string", "file_provider", packageName + ".fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
-            buildConfigField "String", "API_HOST","\"https://api.crm.insurance4truck.com/api/\""
+            buildConfigField "String", "API_HOST","\"https://api.crm.insurance4truck.com\""
             buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"
@@ -202,7 +202,7 @@ android {
             resValue "string", "sync_account_type", packageName + ".sync"
             resValue "string", "file_provider", packageName + ".fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
-            buildConfigField "String", "API_HOST","\"https://api.crm.staging.insurance4truck.com/api/\""
+            buildConfigField "String", "API_HOST","\"https://api.crm.staging.insurance4truck.com\""
             buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"

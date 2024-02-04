@@ -14,7 +14,7 @@ def packageName = "com.insurance4truck.debug"
 def firebaseAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
 
 def crashlyticsAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
-//        && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
+        && new File(LinphoneSdkBuildDir + '/libs/').exists() && new File(LinphoneSdkBuildDir + '/libs-debug/').exists()
 
 def extractNativeLibs = false
 
@@ -136,7 +136,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -144,11 +144,8 @@ android {
             resValue "string", "sync_account_type", packageName + ".sync"
             resValue "string", "file_provider", packageName + ".fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
-            buildConfigField "String", "API_URL","\"https://api.crm.staging.insurance4truck.com/api/\""
-            buildConfigField "String", "OAUTH_TOKEN_URL","\"https://api.crm.staging.insurance4truck.com/oauth/token\""
+            buildConfigField "String", "API_HOST","\"https://api.crm.insurance4truck.com/api/\""
             buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
-            buildConfigField "String", "REDIRECT_URI","\"com.insurance4truck.debug://redirect\""
-            buildConfigField "String", "AUTHORIZE_ENDPOINT","\"https://api.crm.staging.insurance4truck.com/oauth/authorize\""
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"
             }
@@ -160,25 +157,19 @@ android {
             initWith release
 
             resValue "bool", "crashlytics_enabled", crashlyticsAvailable.toString()
+
             if (crashlyticsAvailable) {
                 apply plugin: 'com.google.firebase.crashlytics'
 
                 firebaseCrashlytics {
-                    nativeSymbolUploadEnabled false
+                    nativeSymbolUploadEnabled true
+                    unstrippedNativeLibsDir file(LinphoneSdkBuildDir + '/libs-debug/').toString()
                 }
             }
-//            if (crashlyticsAvailable) {
-//                apply plugin: 'com.google.firebase.crashlytics'
-//
-//                firebaseCrashlytics {
-//                    nativeSymbolUploadEnabled true
-//                    unstrippedNativeLibsDir file(LinphoneSdkBuildDir + '/libs-debug/').toString()
-//                }
-//            }
         }
 
         debug {
-//            applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             debuggable true
             jniDebuggable true
 
@@ -187,11 +178,8 @@ android {
             resValue "string", "file_provider", packageName + ".debug.fileprovider"
             resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
             resValue "bool", "crashlytics_enabled", crashlyticsAvailable.toString()
-            buildConfigField "String", "API_URL","\"https://api.crm.staging.insurance4truck.com/api/\""
-            buildConfigField "String", "OAUTH_TOKEN_URL","\"https://api.crm.staging.insurance4truck.com/oauth/token\""
+            buildConfigField "String", "API_HOST","\"https://api.crm.staging.insurance4truck.com\""
             buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
-            buildConfigField "String", "REDIRECT_URI","\"com.insurance4truck.debug://redirect\""
-            buildConfigField "String", "AUTHORIZE_ENDPOINT","\"https://api.crm.staging.insurance4truck.com/oauth/authorize\""
 
             if (!firebaseAvailable) {
                 resValue "string", "gcm_defaultSenderId", "none"
@@ -204,6 +192,23 @@ android {
                     nativeSymbolUploadEnabled false
                 }
             }
+        }
+        staging {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "linphone_app_branch", gitBranch.toString().trim()
+            resValue "string", "sync_account_type", packageName + ".sync"
+            resValue "string", "file_provider", packageName + ".fileprovider"
+            resValue "string", "linphone_address_mime_type", "vnd.android.cursor.item/vnd." + packageName + ".provider.sip_address"
+            buildConfigField "String", "API_HOST","\"https://api.crm.staging.insurance4truck.com/api/\""
+            buildConfigField "String", "CLIENT_ID","\"9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15\""
+            if (!firebaseAvailable) {
+                resValue "string", "gcm_defaultSenderId", "none"
+            }
+
+            resValue "bool", "crashlytics_enabled", "false"
         }
     }
 
@@ -284,7 +289,7 @@ dependencies {
         implementation 'com.google.firebase:firebase-messaging'
     }
 
-    implementation 'org.linphone:linphone-sdk-android:5.3+'
+    implementation 'org.linphone:linphone-sdk-android:5.3.7'
 
     // Only enable leak canary prior to release
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'

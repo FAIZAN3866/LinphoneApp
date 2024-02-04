@@ -1,7 +1,9 @@
 package org.linphone.ui.login
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class SipCredentialsResponse(
     @SerializedName("device_identifier")
     val device_identifier: String,

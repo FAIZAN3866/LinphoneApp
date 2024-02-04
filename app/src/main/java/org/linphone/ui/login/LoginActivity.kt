@@ -58,8 +58,8 @@ class LoginActivity : AppCompatActivity() {
            to generate the code challenge.
         */
         val clientId = BuildConfig.CLIENT_ID
-        val redirectUri = BuildConfig.REDIRECT_URI
-        val baseUrl = BuildConfig.OAUTH_TOKEN_URL
+        val redirectUri = "com.insurance4truck.debug://redirect"
+        val baseUrl = BuildConfig.API_HOST + "/oauth/token"
         val grantType = "authorization_code"
 
         // Get the form body passing in the code verifier.
@@ -128,7 +128,7 @@ class LoginActivity : AppCompatActivity() {
         }
         val devicName = corePreferences.deviceName
 //        Log.e("identifier", deviceIdentifier)
-        val baseUrl = BuildConfig.API_URL + "v1/telnyx/sip-credentials?device_name=$devicName&device_identifier=ANDR $deviceIdentifier"
+        val baseUrl = BuildConfig.API_HOST + "/api/v1/telnyx/sip-credentials?device_name=$devicName&device_identifier=ANDR $deviceIdentifier"
 
         // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
         // and the form body
@@ -176,7 +176,7 @@ class LoginActivity : AppCompatActivity() {
         /* Previously we sent the code challenge. Now we send the code verifier used
            to generate the code challenge.
         */
-        val baseUrl = BuildConfig.API_URL + "v1/phone-connections"
+        val baseUrl = BuildConfig.API_HOST + "/api/v1/phone-connections"
 
         // Build the request ensuring the content type is set to `application/x-www-form-urlencoded`
         // and the form body
@@ -197,8 +197,6 @@ class LoginActivity : AppCompatActivity() {
                     response.body?.string(),
                     DeviceConnectionsResponse::class.java
                 )
-                Log.e("connections list", response.body)
-                Log.e("connections list 2 ", tokenResponse)
                 var sharedAssistantViewModel: SharedAssistantViewModel = this.run {
                     ViewModelProvider(this)[SharedAssistantViewModel::class.java]
                 }

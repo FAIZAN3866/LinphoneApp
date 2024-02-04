@@ -1,7 +1,9 @@
 package org.linphone.data.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class PhoneConnections(
     @SerializedName("current_page")
     val currentPage: Int,

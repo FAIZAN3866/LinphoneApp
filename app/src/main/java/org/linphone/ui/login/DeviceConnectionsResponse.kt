@@ -1,13 +1,16 @@
 package org.linphone.ui.login
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class DeviceConnectionsResponse(
     @SerializedName("data")
     val data: ArrayList<DeviceConnection>
 
 )
 
+@Keep
 data class DeviceConnection(
     @SerializedName("id")
     val id: String,

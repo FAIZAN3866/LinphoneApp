@@ -49,6 +49,7 @@
 #-keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 -keep class org.linphone.ui.login.TokenResponse
+-keep class org.linphone.ui.login.SipCredentialsResponse
 -keep class org.linphone.ui.login.LoginActivity
  # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call

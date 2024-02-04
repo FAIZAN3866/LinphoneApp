@@ -73,7 +73,7 @@ class AssistantActivity : GenericActivity(), SnackBarActivity {
         }
         val devicName = corePreferences.deviceName
 
-        val clientId = "9affe9e3-e2a8-48fc-bedf-fd5fcd3f5b15"
+        val clientId = BuildConfig.CLIENT_ID
         val redirectUri = "com.insurance4truck.debug://redirect"
 
         fun String.utf8(): String = URLEncoder.encode(this, "UTF-8")
@@ -92,7 +92,7 @@ class AssistantActivity : GenericActivity(), SnackBarActivity {
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
         webView.webViewClient = MyWebViewClient(this)
 
-        webView.loadUrl("${BuildConfig.AUTHORIZE_ENDPOINT}?$authParams")
+        webView.loadUrl("${BuildConfig.API_HOST}/oauth/authorize?$authParams")
 
         // Initiate the OAuth 2.0 flow using CustomTabs<url>.
 //        CustomTabsIntent.Builder().build().launchUrl(
@@ -129,7 +129,7 @@ class AssistantActivity : GenericActivity(), SnackBarActivity {
             activity.findViewById<ProgressBar>(R.id.progress).visibility = View.VISIBLE
 
             val url = request?.url.toString()
-            if (url.startsWith(BuildConfig.REDIRECT_URI)) {
+            if (url.startsWith("com.insurance4truck.debug://redirect")) {
                 activity.findViewById<ProgressBar>(R.id.progress).visibility = View.VISIBLE
 
 //            if (host == null) {

@@ -1,6 +1,6 @@
 package org.linphone.ui.login
 
-import com.google.errorprone.annotations.Keep
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep

@@ -1,7 +1,9 @@
 package org.linphone.data.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class Data(
     @SerializedName("created_at")
     val createdAt: String,

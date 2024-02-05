@@ -9,7 +9,7 @@ plugins {
 def appVersionName = "5.1.10"
 def appVersionCode = 51010
 
-def packageName = "com.insurance4truck.debug"
+def packageName = "com.insurance4truck"
 
 def firebaseAvailable = new File(projectDir.absolutePath +'/google-services.json').exists()
 
